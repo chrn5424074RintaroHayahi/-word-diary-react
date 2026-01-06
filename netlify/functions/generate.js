@@ -1,6 +1,12 @@
+// Netlify Functionsを使ったサーバーサイド処理
+// 参考: https://docs.netlify.com/functions/overview/
+// OpenAI APIドキュメント: https://platform.openai.com/docs/api-reference
+
 const fetch = require('node-fetch');
 
+// エクスポートする関数（Netlify Functionsの形式）
 exports.handler = async (event) => {
+  // POSTメソッドかチェック
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -8,8 +14,10 @@ exports.handler = async (event) => {
     };
   }
 
+  // 環境変数からAPIキーを取得
   const apiKey = process.env.OPENAI_API_KEY;
   
+  // APIキーがない場合はエラー
   if (!apiKey) {
     return {
       statusCode: 500,
@@ -21,8 +29,10 @@ exports.handler = async (event) => {
   }
 
   try {
+    // リクエストボディから単語を取得
     const { words } = JSON.parse(event.body);
 
+    // 単語が配列かつ空でないかチェック
     if (!Array.isArray(words) || words.length === 0) {
       return {
         statusCode: 400,
@@ -30,11 +40,14 @@ exports.handler = async (event) => {
       };
     }
 
+    // OpenAI APIに送るプロンプトを作成
     const prompt = `以下の${words.length}個の単語を使って、自然な日本語の日記を書いてください。
 単語: ${words.join('、')}
 
 日記:`;
 
+    // OpenAI APIにリクエストを送信
+    // fetch()で非同期通信
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -58,8 +71,10 @@ exports.handler = async (event) => {
       }),
     });
 
+    // レスポンスをJSON形式で取得
     const data = await response.json();
 
+    // エラーの場合
     if (!response.ok) {
       console.error('OpenAI API Error:', data);
       return {
@@ -71,7 +86,12 @@ exports.handler = async (event) => {
       };
     }
 
-    const text = data.choices[0]?.message?.content?.trim() || '';
+    // 生成されたテキストを取り出す
+    // choices[0].message.contentに入っている
+    let text = '';
+    if (data.choices && data.choices[0] && data.choices[0].message) {
+      text = data.choices[0].message.content.trim();
+    }
 
     return {
       statusCode: 200,

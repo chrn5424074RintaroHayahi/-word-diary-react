@@ -1,3 +1,5 @@
+// 単語入力コンポーネント
+// propsで親コンポーネントからデータを受け取る
 import React from 'react';
 
 const WordInput = ({ index, value, onChange }) => {

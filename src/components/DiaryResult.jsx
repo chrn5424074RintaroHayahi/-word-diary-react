@@ -1,3 +1,5 @@
+// 日記表示コンポーネント
+// 生成されたテキストをtextareaで表示
 import React from 'react';
 
 const DiaryResult = ({ result, setResult }) => {
