@@ -1,106 +1,104 @@
-# 単語日記 (Word Diary React)
+# 単語日記アプリ 📝
 
-単語を 3 / 5 / 7 個入れてAIが日記を生成するWebアプリケーションです。
+Web API課題で作ったアプリです！
+単語を入力するとAIが日記を作ってくれます ✨
 
-## 機能
+## できること
 
-- 3個、5個、7個から単語数を選択
-- 単語を入力してAIが自動的に日記を生成
-- 生成された日記をコピー
-- 音声で読み上げ
-- 下書きの保存・復元・削除
+- 単語を3個、5個、7個から選べます
+- 入力した単語でAIが自動で日記を書いてくれる（すごい！）
+- 生成された日記をコピーできる
+- ブラウザで読み上げてくれる機能もつけました
+- 途中で保存したり、消したりできる下書き機能
 
-## 技術スタック
+## 使った技術
 
-- React 18
-- Vite
-- Netlify Functions
-- OpenAI API (GPT-3.5-turbo)
+今回初めて使った技術が多くて大変でした...
 
-## プロジェクト構成
+- React 18（フレームワーク）
+- Vite（開発サーバー。めっちゃ速い）
+- Netlify Functions（サーバーレス関数？よくわからないけど便利）
+- OpenAI API（日記を生成してくれるAI）
+
+## ファイルの構成
+
+最初は全部1つのファイルに書いてたけど、コンポーネントに分けた方がいいって学んだのでこんな感じに分けました：
 
 ```
 word-diary-react/
+├── src/
+│   ├── App.jsx              # メインのファイル
+│   ├── App.css              # 見た目
+│   ├── main.jsx             # Reactの起動ポイント
+│   ├── components/          # パーツに分けたファイル
+│   │   ├── WordInput.jsx    # 単語を入力するところ
+│   │   └── DiaryResult.jsx  # 結果を表示するところ
+│   ├── hooks/               # カスタムフック（ロジックをまとめたやつ）
+│   │   ├── useDraft.js      # 下書き保存の処理
+│   │   └── useSpeech.js     # 読み上げの処理
+│   └── utils/
+│       └── api.js           # API呼び出しの処理
 ├── netlify/
 │   └── functions/
-│       └── generate.js      # OpenAI API呼び出し
-├── src/
-│   ├── components/
-│   │   ├── WordInput.jsx    # 単語入力コンポーネント
-│   │   └── DiaryResult.jsx  # 日記表示コンポーネント
-│   ├── hooks/
-│   │   ├── useDraft.js      # 下書き管理フック
-│   │   └── useSpeech.js     # 音声読み上げフック
-│   ├── utils/
-│   │   └── api.js           # API呼び出しユーティリティ
-│   ├── App.jsx              # メインアプリケーション
-│   ├── App.css              # スタイル
-│   └── main.jsx             # エントリーポイント
+│       └── generate.js      # サーバー側の処理（APIキーを隠すため）
 ├── index.html
-├── netlify.toml             # Netlify設定
 ├── package.json
 └── vite.config.js
 ```
+動かし方
 
-## セットアップ
+自分の環境で動かす場合の手順です。
 
-### 1. リポジトリをクローン
+### 1. ダウンロード
 
 ```bash
 git clone <repository-url>
 cd word-diary-react
 ```
 
-### 2. 依存関係をインストール
+### 2. 必要なパッケージをインストール
+
+最初これ忘れてエラーが出ました...
 
 ```bash
 npm install
 ```
 
-### 3. 環境変数を設定
+### 3. OpenAI APIキーの設定
 
-`.env` ファイルを作成し、OpenAI APIキーを設定します：
+これが一番大変だった 😅
+
+プロジェクトのルートに `.env` ファイルを作って、こう書く：
 
 ```
-OPENAI_API_KEY=your-openai-api-key-here
+OPENAI_API_KEY=ここにAPIキーを貼り付け
 ```
 
-**OpenAI APIキーの取得方法：**
-1. [OpenAI Platform](https://platform.openai.com/)にアカウント登録
-2. API keys ページで新しいキーを作成
-3. キーをコピーして `.env` ファイルに設定
+**APIキーの取り方：**
+1. [OpenAI](https://platform.openai.com/)でアカウント作る（クレジットカード必要）
+2. API keysのページで「Create new secret key」をクリック
+3. 出てきたキーをコピーして `.env` に貼り付け
+4. ⚠️ このキーは絶対に人に見せないこと！
 
-### 4. ローカル開発サーバーを起動
+### 4. 起動
 
-```bash
-npm run dev
-```
+```bashで公開する方法
 
-`http://localhost:8888` でアプリケーションが起動します。
+課題で公開する必要があったのでNetlifyを使いました。無料で使えます！
 
-## Netlifyへのデプロイ
+### 手順
 
-### 1. Netlifyにリポジトリを接続
-
-1. [Netlify](https://app.netlify.com/)にログイン
+1. [Netlify](https://app.netlify.com/)でアカウント作る（GitHubと連携できる）
 2. "Add new site" → "Import an existing project" を選択
-3. GitHubなどのリポジトリをNetlifyに接続
+3. GitHubのリポジトリを選ぶ
+4. ビルド設定は自動でやってくれる（`netlify.toml`があるから）
+5. **重要！** 環境変数を設定する：
+   - Site settings → Environment variables に行く
+   - 「Add a variable」で `OPENAI_API_KEY` を追加
+   - ローカルの `.env` と同じAPIキーを入れる
+6. デプロイボタンを押す
 
-### 2. ビルド設定
-
-Netlifyが自動的に `netlify.toml` を読み込みますが、手動設定する場合：
-
-- **Build command:** `npm run build`
-- **Publish directory:** `dist`
-- **Functions directory:** `netlify/functions`
-
-### 3. 環境変数を設定
-
-**重要:** Netlifyダッシュボードで環境変数を設定してください
-
-1. Site settings → Environment variables
-2. "Add a variable" をクリック
-3. 以下を設定：
+あとはGitHubにpushするたびに自動で更新されます 🚀
    - **Key:** `OPENAI_API_KEY`
    - **Value:** あなたのOpenAI APIキー
    - **Scopes:** すべてにチェック
@@ -122,62 +120,64 @@ npm run vite
 npm run build
 
 # ビルドのプレビュー
-npm run serve
-```
+npmその他のコマンド
 
-## 学習プロセスについて
+開発中に使ったコマンドのメモ：
 
-このプロジェクトは、Web APIの学習課題として開発しました。開発にあたり、以下のアプローチを取りました：
+```bash
+# 普段はこれで起動
+npm run dev
 
-### 使用した学習リソース
-
-- [課題資料](https://esa-pages.io/p/sharing/8704/posts/5031/38aed93d61134d0eb7ba.html) - Web API課題の要件と学習ガイド
-- [MDN Web Docs](https://developer.mozilla.org/) - Web API（LocalStorage, Fetch, Speech Synthesis）の学習
-- [React公式ドキュメント](https://react.dev/) - Reactの基礎、Hooks、コンポーネント設計
-- [Netlify Docs](https://docs.netlify.com/) - Netlify FunctionsとServerless関数の実装
-- [OpenAI API Documentation](https://platform.openai.com/docs/) - Chat Completions APIの使用方法
+# ビルド（本番用のファイル作成）
+npm run build Documentation](https://platform.openai.com/docs/) - Chat Completions APIの使用方法
 
 ### AI支援ツールの活用
 
 学習を効率化するために、GitHub Copilot（Claude Sonnet 4.5）をプログラミングアシスタントとして活用しました。
 
 **AIを使った学習方法：**
-- コードの構造やベストプラクティスについて質問
-- エラーメッセージの理解とデバッグの支援
-- Web APIの使用方法の確認
-- React Hooksのパターンと実装方法の学習
+- コード記録
 
-**自分で行ったこと：**
-- 要件定義とアプリケーション設計
-- 各Web APIの動作確認と検証
-- コードの読み込みと理解
-- コメントを追加して学習内容を記録
-- デプロイと環境構築の実践
+Web API課題で作りました。正直めちゃくちゃ苦戦しました... 😭
 
-### 使用したWeb API
+### 参考にしたサイト
 
-1. **LocalStorage API** - 下書きの永続化（[useDraft.js](src/hooks/useDraft.js)）
-2. **Speech Synthesis API** - 日記の音声読み上げ（[useSpeech.js](src/hooks/useSpeech.js)）
-3. **Fetch API** - サーバーとの非同期通信（[api.js](src/utils/api.js)）
-4. **Clipboard API** - 日記のコピー機能（[App.jsx](src/App.jsx)）
+- [課題資料](https://esa-pages.io/p/sharing/8704/posts/5031/38aed93d61134d0eb7ba.html) - 課題の説明
+- [MDN Web Docs](https://developer.mozilla.org/) - Web APIの使い方調べるのにめっちゃ見た
+- [React公式ドキュメント](https://react.dev/) - Reactの基礎を学習
+- [Netlify Docs](https://docs.netlify.com/) - デプロイ方法
+- [OpenAI API ドキュメント](https://platform.openai.com/docs/) - APIの使い方
 
-各ファイルには学習過程で理解した内容をコメントとして残しています。
+### GitHub Copilotを使いました
 
-### 学んだこと
+正直に書くと、GitHub Copilot（AI）を使って勉強しながら作りました。
+全部AIに書かせたわけじゃなくて、わからないところを質問したり、エラーの意味を教えてもらったりしました。
 
-- Reactの状態管理とコンポーネント設計
-- カスタムHooksによるロジックの再利用
-- Netlify Functionsを使ったサーバーレスアーキテクチャ
-- APIキーの安全な管理方法
-- 各種Web APIの実践的な使い方
+**AIに聞いたこと：**
+- 「useStateってどう使うの？」
+- 「LocalStorageに保存するコードがわからない」
+- 「エラーメッセージの意味は？」
+- 「Netlify Functionsって何？」
 
-## 注意事項
+**自分でやったこと：**
+- アプリの機能を考えた
+- コードを読んで理解する
+- 実際に動かして確認
+- コメントを書いて復習
+- デプロイして公開
 
-- ⚠️ OpenAI APIの使用には費用がかかる場合があります
-- 🔒 APIキーは絶対に公開リポジトリにコミットしないでください
-- 📁 `.env` ファイルは `.gitignore` に含まれています
-- 🌐 本番環境の環境変数はNetlifyダッシュボードで設定してください
+### 使ったWeb API（課題要件）
+
+1. **LocalStorage API** - 下書きを保存する機能（[useDraft.js](src/hooks/useDraft.js)）
+2. **
+
+- OpenAI APIは使った分だけお金かかります（無料枠もあるけど）
+- APIキーは絶対にGitHubに上げないこと！！（.gitignoreに入れてある）
+- 本番環境（Netlify）のAPIキーはダッシュボードで別に設定する
 
 ## ライセンス
 
-MIT
+MIT（自由に使ってOK）ンポーネントに分けるの最初面倒だと思ったけど、あとで修正するとき楽だった
+- Netlify便利すぎる。サーバー立てなくていいのすごい
+- APIキーの管理大事（最初Gitに上げそうになった...危ない）
+- エラーが出たときはちゃんと読むと意外と解決できる
