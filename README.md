@@ -131,6 +131,7 @@ npm run serve
 
 ### 使用した学習リソース
 
+- [課題資料](https://esa-pages.io/p/sharing/8704/posts/5031/38aed93d61134d0eb7ba.html) - Web API課題の要件と学習ガイド
 - [MDN Web Docs](https://developer.mozilla.org/) - Web API（LocalStorage, Fetch, Speech Synthesis）の学習
 - [React公式ドキュメント](https://react.dev/) - Reactの基礎、Hooks、コンポーネント設計
 - [Netlify Docs](https://docs.netlify.com/) - Netlify FunctionsとServerless関数の実装
