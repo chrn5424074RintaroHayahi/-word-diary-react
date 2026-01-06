@@ -44,7 +44,8 @@ word-diary-react/
 ├── package.json
 └── vite.config.js
 ```
-動かし方
+
+## 動かし方
 
 自分の環境で動かす場合の手順です。
 
@@ -57,7 +58,7 @@ cd word-diary-react
 
 ### 2. 必要なパッケージをインストール
 
-最初これ忘れてエラー
+最初これ忘れてエラーが出ました...
 
 ```bash
 npm install
@@ -65,6 +66,7 @@ npm install
 
 ### 3. OpenAI APIキーの設定
 
+これが一番大変だった 😅
 
 プロジェクトのルートに `.env` ファイルを作って、こう書く：
 
@@ -76,13 +78,19 @@ OPENAI_API_KEY=ここにAPIキーを貼り付け
 1. [OpenAI](https://platform.openai.com/)でアカウント作る（クレジットカード必要）
 2. API keysのページで「Create new secret key」をクリック
 3. 出てきたキーをコピーして `.env` に貼り付け
-4. このキーは絶対に人に見せないこと！
+4. ⚠️ このキーは絶対に人に見せないこと！
 
 ### 4. 起動
 
-```bashで公開する方法
+```bash
+npm run dev
+```
 
-課題で公開する必要があったのでNetlifyを使いました。すこし課金しました。
+うまくいけば `http://localhost:8888` で見れます 🎉
+
+## Netlifyで公開する方法
+
+課題で公開する必要があったのでNetlifyを使いました。少し課金しました。
 
 ### 手順
 
@@ -96,29 +104,9 @@ OPENAI_API_KEY=ここにAPIキーを貼り付け
    - ローカルの `.env` と同じAPIキーを入れる
 6. デプロイボタンを押す
 
-あとはGitHubにpushするたびに自動で更新されます 
-   - **Key:** `OPENAI_API_KEY`
-   - **Value:** あなたのOpenAI APIキー
-   - **Scopes:** すべてにチェック
+あとはGitHubにpushするたびに自動で更新されます 🚀
 
-### 4. デプロイ
-
-設定が完了すると、自動的にデプロイされます。以降、GitリポジトリへのプッシュでCDが実行されます。
-
-## 開発コマンド
-
-```bash
-# 開発サーバー起動（Netlify Functions込み）
-npm run dev
-
-# Viteのみ起動
-npm run vite
-
-# プロダクションビルド
-npm run build
-
-# ビルドのプレビュー
-npmその他のコマンド
+## その他のコマンド
 
 開発中に使ったコマンドのメモ：
 
@@ -127,16 +115,12 @@ npmその他のコマンド
 npm run dev
 
 # ビルド（本番用のファイル作成）
-npm run build Documentation](https://platform.openai.com/docs/) - Chat Completions APIの使用方法
+npm run build
+```
 
-### AI支援ツールの活用
+## 学習記録
 
-学習を効率化するために、GitHub Copilot（Claude Sonnet 4.5）をプログラミングアシスタントとして活用しました。
-
-**AIを使った学習方法：**
-- コード記録
-
-Web API課題で作りました。
+Web API課題で作りました。正直めちゃくちゃ苦戦しました... 😭
 
 ### 参考にしたサイト
 
@@ -167,7 +151,21 @@ Web API課題で作りました。
 ### 使ったWeb API（課題要件）
 
 1. **LocalStorage API** - 下書きを保存する機能（[useDraft.js](src/hooks/useDraft.js)）
-2. **
+2. **Speech Synthesis API** - 読み上げ機能（[useSpeech.js](src/hooks/useSpeech.js)）
+3. **Fetch API** - サーバーと通信（[api.js](src/utils/api.js)）
+4. **Clipboard API** - コピー機能（[App.jsx](src/App.jsx)）
+
+各ファイルにコメントで学んだことを書いてます 📝
+
+### わかったこと・感想
+
+- Reactのstateとか最初全然わからなかったけど、使ってるうちに少しわかってきた
+- コンポーネントに分けるの最初面倒だと思ったけど、あとで修正するとき楽だった
+- Netlify便利すぎる。サーバー立てなくていいのすごい
+- APIキーの管理大事（最初Gitに上げそうになった...危ない）
+- エラーが出たときはちゃんと読むと意外と解決できる
+
+## 注意
 
 - OpenAI APIは使った分だけお金かかります（無料枠もあるけど）
 - APIキーは絶対にGitHubに上げないこと！！（.gitignoreに入れてある）
@@ -175,7 +173,4 @@ Web API課題で作りました。
 
 ## ライセンス
 
-MIT（自由に使ってOK）インポーネントに分けるの最初面倒だと思ったけど、あとで修正するとき楽だった
-- Netlify便利すぎる。サーバー立てなくていいのすごい
-- APIキーの管理大事（最初Gitに上げそうになった...危ない）
-- エラーが出たときはちゃんと読むと意外と解決できる
+MIT（自由に使ってOK）
