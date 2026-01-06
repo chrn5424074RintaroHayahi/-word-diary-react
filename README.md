@@ -125,6 +125,51 @@ npm run build
 npm run serve
 ```
 
+## 学習プロセスについて
+
+このプロジェクトは、Web APIの学習課題として開発しました。開発にあたり、以下のアプローチを取りました：
+
+### 使用した学習リソース
+
+- [MDN Web Docs](https://developer.mozilla.org/) - Web API（LocalStorage, Fetch, Speech Synthesis）の学習
+- [React公式ドキュメント](https://react.dev/) - Reactの基礎、Hooks、コンポーネント設計
+- [Netlify Docs](https://docs.netlify.com/) - Netlify FunctionsとServerless関数の実装
+- [OpenAI API Documentation](https://platform.openai.com/docs/) - Chat Completions APIの使用方法
+
+### AI支援ツールの活用
+
+学習を効率化するために、GitHub Copilot（Claude Sonnet 4.5）をプログラミングアシスタントとして活用しました。
+
+**AIを使った学習方法：**
+- コードの構造やベストプラクティスについて質問
+- エラーメッセージの理解とデバッグの支援
+- Web APIの使用方法の確認
+- React Hooksのパターンと実装方法の学習
+
+**自分で行ったこと：**
+- 要件定義とアプリケーション設計
+- 各Web APIの動作確認と検証
+- コードの読み込みと理解
+- コメントを追加して学習内容を記録
+- デプロイと環境構築の実践
+
+### 使用したWeb API
+
+1. **LocalStorage API** - 下書きの永続化（[useDraft.js](src/hooks/useDraft.js)）
+2. **Speech Synthesis API** - 日記の音声読み上げ（[useSpeech.js](src/hooks/useSpeech.js)）
+3. **Fetch API** - サーバーとの非同期通信（[api.js](src/utils/api.js)）
+4. **Clipboard API** - 日記のコピー機能（[App.jsx](src/App.jsx)）
+
+各ファイルには学習過程で理解した内容をコメントとして残しています。
+
+### 学んだこと
+
+- Reactの状態管理とコンポーネント設計
+- カスタムHooksによるロジックの再利用
+- Netlify Functionsを使ったサーバーレスアーキテクチャ
+- APIキーの安全な管理方法
+- 各種Web APIの実践的な使い方
+
 ## 注意事項
 
 - ⚠️ OpenAI APIの使用には費用がかかる場合があります
